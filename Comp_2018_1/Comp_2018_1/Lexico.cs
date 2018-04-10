@@ -21,7 +21,7 @@ namespace Comp_2018_1
         public enum Token
         {
             Num,
-            Lietral,
+            Literal,
             Id,
             Comentario,
             Tab,
@@ -34,6 +34,11 @@ namespace Comp_2018_1
             AB_P,
             FC_P,
             ERRO
+        }
+
+        public string ShowTable(Table_simbols table)
+        {
+            return "Lexema: " + table.lexema + " " + "Token: " + table.token + " " + "tipo:" + table.tipo;
         }
     }
 }

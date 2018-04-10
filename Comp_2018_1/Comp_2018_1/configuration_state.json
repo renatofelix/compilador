@@ -3,7 +3,7 @@
     {
       "state": "0",
       "next_state": {
-        "L": 9, //  letras//
+        "L": 9, //  letras
         "D": 2, //  numeros
         "2D": 21, //  -
         "2B": 22, //  +
@@ -96,7 +96,7 @@
     },
     {
       "state": "15",
-      "next_state": []
+      "next_state": {}
     },
     {
       "state": "16",

@@ -4,12 +4,12 @@
       "state": "0",
       "next_state": {
         "L": 9, //  letras
-        "D": 2, //  numeros
+        "N": 2, //  numeros
         "2D": 21, //  -
         "2B": 22, //  +
         "7B": 10, //  {
         "22": 7, //  "abre aspas
-        "03": 12, //  EOF
+        "00": 12, //  EOF
         "08": 0, //  espaço
         "09": 0, //  tabulação
         "3C": 14, //  <
@@ -18,7 +18,8 @@
         "29": 24, //  )
         "28": 25, //  (
         "2A": 23, //  *
-        "3B": 26 //  ;
+        "3B": 26, //  ;
+        "SPACE_TAB_ETC": 0
       }
     },
     {
@@ -28,7 +29,7 @@
     {
       "state": "2",
       "next_state": {
-        "D": 2, //  numeros
+        "N": 2, //  numeros
         "2E": 3, //  .
         "eE": 5 //  e ou E
       }
@@ -140,6 +141,11 @@
     },
     {
       "state": "26",
+      "next_state": []
+    },
+    
+    {
+      "state": "27",
       "next_state": []
     }
   ]

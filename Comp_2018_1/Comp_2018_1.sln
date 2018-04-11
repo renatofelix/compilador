@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Comp_2018_1", "Comp_2018_1\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{04DEC47C-08EB-46C1-B006-FC67F32BF79D}"
 	ProjectSection(SolutionItems) = preProject
+		finalsState.json = finalsState.json
 		TextFile1.txt = TextFile1.txt
 	EndProjectSection
 EndProject

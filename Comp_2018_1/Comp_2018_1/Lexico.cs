@@ -10,7 +10,7 @@ namespace Comp_2018_1
     {
         public int state;
         public string currentWord;
-        private int countElementsOfText = 0;
+        private int indexElementsOfText = 0;
 
         List<Table_simbols> Tables_lexema = new List<Table_simbols>();
 
@@ -50,6 +50,8 @@ namespace Comp_2018_1
             
         }
 
+
+
         public void CheckList(string lexToCheck)
         {
             int validate = 0;
@@ -67,7 +69,7 @@ namespace Comp_2018_1
             }
             else
             {
-               // Tables_lexema
+                ClassificationLexema();
             }
             
         }
@@ -75,19 +77,33 @@ namespace Comp_2018_1
 
         public void ShowTable()
         {
-            Console.Write("Lexama:\t\tToken:\t\t\tTipo:\n");
+            Console.Write("\nLexama:\t\tToken:\t\t\tTipo:\n");
             foreach (Table_simbols a in Tables_lexema)
             {
                 Console.Write(a.lexema+"\t\t\t"+a.token+"\t\t\t"+a.tipo+"\n");
             }
         }
+        
+
+        /// <summary>
+        /// show hexa all text
+        /// </summary>
+        public void TesteShowEx()
+        {
+            for (int i = 0; i < text_Char.Length; i++)
+            {
+                Console.Write(" "+((int)text_Char[i]).ToString("x"));
+            }
+        }
 
         public int MachineStart()
         {
+            //TesteShowEx();
+
             FeedList();
             state = 0;
             currentWord = "";
-            RunMachine(state, textDec[countElementsOfText]);
+            RunMachine(state, textDec[indexElementsOfText]);
             return 0;
         }
         /// <summary>
@@ -142,10 +158,16 @@ namespace Comp_2018_1
 
         public void RunMachine(int stateMachine, byte toConvertToHex)
         {
-            if((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC")
+            if ((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC" || ((stateMachine == 10) && (ConversorToEX(toConvertToHex) != "7d"))|| ((stateMachine == 7) && (ConversorToEX(toConvertToHex) != "22")))
             {
-                ExeptionValidate();
-                return;
+                if((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
+                {
+                    IgnoreExeption();
+                }
+                else {
+                    ExeptionValidate();
+                    return;
+                }
             }
             //else if ((ConversorToEX(toConvertToHex)) == "00")
             //{
@@ -160,21 +182,21 @@ namespace Comp_2018_1
                     FinishWord();
                     return;
                 }
-                if (countElementsOfText < text_Char.Length)
+                if (indexElementsOfText < text_Char.Length)
                 {
                     int nextState = (int)(configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]);
                     state = nextState;
-                    currentWord += text_Char[countElementsOfText];
+                    currentWord += text_Char[indexElementsOfText];
 
-                    countElementsOfText = countElementsOfText < text_Char.Length ? countElementsOfText + 1 : countElementsOfText;
+                    indexElementsOfText = indexElementsOfText < text_Char.Length ? indexElementsOfText + 1 : indexElementsOfText;
                 }
-                if(countElementsOfText < text_Char.Length)
+                if(indexElementsOfText < text_Char.Length)
                 {
-                    RunMachine(state, textDec[countElementsOfText]);
+                    RunMachine(state, textDec[indexElementsOfText]);
                 }
                 else
                 {
-                    Console.Write(currentWord);
+                    PrintWord();
                 }
             }
             else 
@@ -187,19 +209,19 @@ namespace Comp_2018_1
         private void FinishWord()
         {
             //criar o CheckLexema para checar a palavra anterior
-            Console.Write(currentWord);
+            PrintWord();
 
             // adiciona a nova palavra na pilha de letras
-            currentWord = text_Char[countElementsOfText].ToString();
+            currentWord = text_Char[indexElementsOfText].ToString();
             //incrementa o index para checar a nova palavra
-            if (countElementsOfText < text_Char.Length)
+            if (indexElementsOfText < text_Char.Length)
             {
-                countElementsOfText++;
-                RunMachine(0, textDec[countElementsOfText]);
+                indexElementsOfText++;
+                RunMachine(0, textDec[indexElementsOfText]);
             }
             else
             {
-                Console.Write(currentWord);
+                PrintWord();
             }
 
         }
@@ -207,17 +229,33 @@ namespace Comp_2018_1
         private void ExeptionValidate()
         {
             //retornar a variavel completa anterior
-            Console.Write(currentWord);
-            currentWord = text_Char[countElementsOfText].ToString();
-            if (countElementsOfText < text_Char.Length)
+            PrintWord();
+            currentWord = text_Char[indexElementsOfText].ToString();
+            if (indexElementsOfText < text_Char.Length)
             {
-                countElementsOfText++;
-                RunMachine(0, textDec[countElementsOfText]);
+                indexElementsOfText++;
+                RunMachine(0, textDec[indexElementsOfText]);
             }
             else
             {
-                Console.Write(currentWord);
+                PrintWord();
             }
+
+        }
+
+        private void PrintWord()
+        {
+            Console.Write("."+currentWord);
+        }
+
+        private void IgnoreExeption()
+        {
+            currentWord += text_Char[indexElementsOfText];
+        }
+
+        private void ClassificationLexema()
+        {
+
         }
     }
 }

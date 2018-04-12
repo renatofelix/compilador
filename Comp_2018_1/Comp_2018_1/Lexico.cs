@@ -15,16 +15,38 @@ namespace Comp_2018_1
         List<Table_simbols> Tables_lexema = new List<Table_simbols>();
 
         List<int> finalStates =new List<int>{ 2, 4, 8, 9, 11, 12, 14, 19, 16, 18, 15, 13, 17, 22, 24, 23, 25, 20, 21, 26 };
-        JObject configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
+        JObject configurationMachine;
+        static JObject preReservada;
+        string reservadaString;
 
-        static JObject preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
-        string reservadaString = preReservada.ToString();
+        public static string text;
+        char[] text_Char;
+        byte[] textDec;
 
-        public static string text = System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
-        char[] text_Char = text.ToCharArray();
-        byte[] textDec = Encoding.ASCII.GetBytes(text);
+        public void LoadFiles(int location)
+        {
+            switch (location)
+            {
+                case 1:
+                    configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
+                    preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
+                    reservadaString = preReservada.ToString();
+                    text = System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
+                    text_Char = text.ToCharArray();
+                    textDec = Encoding.ASCII.GetBytes(text);
+                    break;
+                case 2:
 
-        
+                    configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
+                    preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
+                    reservadaString = preReservada.ToString();
+                    text = System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
+                    text_Char = text.ToCharArray();
+                    textDec = Encoding.ASCII.GetBytes(text);
+                    break;
+                    break;
+            }
+        }
 
 
         /// <summary>
@@ -99,6 +121,7 @@ namespace Comp_2018_1
         public int MachineStart()
         {
             //TesteShowEx();
+            LoadFiles(2);
 
             FeedList();
             state = 0;

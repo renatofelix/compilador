@@ -9,6 +9,7 @@ namespace Comp_2018_1
     class Lexico
     {
         public int state;
+        public int lastState = 0 ;
         public string currentWord;
         private int indexElementsOfText = 0;
         private bool itString;
@@ -25,6 +26,9 @@ namespace Comp_2018_1
         public static string text;
         char[] text_Char;
         byte[] textDec;
+
+        private bool isStriging = false;
+        private bool isCommenting = false;
 
         public void LoadFiles(int location)
         {
@@ -70,30 +74,36 @@ namespace Comp_2018_1
                 tab.token = (Token)Enum.Parse(typeof(Token), preReservada["reservada"][i]["token"].ToString());
                 tab.tipo = preReservada["reservada"][i]["tipo"].ToString();
                 Tables_lexema.Add(tab);
-            }
-            
+            }            
         }
 
-
-
+        /// <summary>
+        /// verifica se o token existe, caso nao exista adiciona ele na tabela
+        /// </summary>
+        /// <param name="lexToCheck"></param>
         public void CheckList(string lexToCheck)
         {
+            lastState = 0;
             int validate = 0;
+            int index = 0;
             foreach(Table_simbols tb in Tables_lexema)
             {
-                if (tb.tipo == lexToCheck)
+                if (tb.lexema == lexToCheck)
                 {
                     validate = 1;
                     break;
                 }
+                index++;
             }
             if (validate == 1)
             {
+                //Console.Write("entrou no validade");
+                Console.Write("<<ja existe>>"+"Token: " + Tables_lexema[index].token + " lexema: " + Tables_lexema[index].lexema + " tipo: " + Tables_lexema[index].tipo + "\n");
                 return;
             }
             else
             {
-                ClassificationLexema();
+                ClassificationLexema(lexToCheck);
             }
         }
 
@@ -122,6 +132,7 @@ namespace Comp_2018_1
         public int MachineStart()
         {
             //TesteShowEx();
+            /*seleciona qual maquina para funcionar*/
             LoadFiles(1);
 
             FeedList();
@@ -171,6 +182,11 @@ namespace Comp_2018_1
         /// <returns></returns>
         public string ConversorToEX(byte b)
         {
+            if (isStriging && b!=34)
+                return "QQC";
+            if (isCommenting && b != 125)
+                return "QQC";
+
             if (b >= 48 && b <= 57)
                 return "N";
             else if ((b >= 65 && b <= 90) || (b >= 97 && b <= 122))
@@ -197,8 +213,68 @@ namespace Comp_2018_1
 
         public void RunMachine(int stateMachine, byte toConvertToHex)
         {
-            if ((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC" || ((stateMachine == 10) && (ConversorToEX(toConvertToHex) != "7d"))|| ((stateMachine == 7) && (ConversorToEX(toConvertToHex) != "22"))||(itComment)||(itString))
+            
+            /*ignora espacos tab etc, */
+            if (((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC") || (ConversorToEX(toConvertToHex) == "22") || (ConversorToEX(toConvertToHex) == "7b") || isStriging || isCommenting)
             {
+
+                if(!isStriging && stateMachine == 0 && (ConversorToEX(toConvertToHex) == "22"))
+                {
+                    PrintWord();
+                    isStriging = true;
+                    currentWord = text_Char[indexElementsOfText].ToString();
+                    PrintWord();
+                    indexElementsOfText++;
+                    RunMachine(7, textDec[indexElementsOfText]);
+                    //IgnoreExeption();
+                    return;
+                }
+                if(isStriging && stateMachine == 7)
+                {
+                    if (ConversorToEX(toConvertToHex) != "22")
+                    {
+                        currentWord += text_Char[indexElementsOfText];
+                        indexElementsOfText++;
+                        RunMachine(7, textDec[indexElementsOfText]);
+                        return;
+                    }
+                    else
+                    {
+
+                        isStriging = false;
+                        ExeptionValidate();
+                        return;
+                    }
+                }
+
+                if (!isCommenting && stateMachine == 0 && (ConversorToEX(toConvertToHex) == "7b"))
+                {
+                    PrintWord();
+                    isCommenting = true;
+                    currentWord = text_Char[indexElementsOfText].ToString();
+                    PrintWord();
+                    indexElementsOfText++;
+                    RunMachine(10, textDec[indexElementsOfText]);
+                    //IgnoreExeption();
+                    return;
+                }
+                if (isStriging && stateMachine == 10)
+                {
+                    if (ConversorToEX(toConvertToHex) != "7d")
+                    {
+                        currentWord += text_Char[indexElementsOfText];
+                        indexElementsOfText++;
+                        RunMachine(10, textDec[indexElementsOfText]);
+                        return;
+                    }
+                    else
+                    {
+                        isCommenting = false;
+                        ExeptionValidate();
+                        return;
+                    }
+                }
+
                 /*
                 if((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
                 {
@@ -210,6 +286,8 @@ namespace Comp_2018_1
                 }
                 */
 
+
+                /*
                 if ((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
                 {
                     if (itString)
@@ -219,31 +297,35 @@ namespace Comp_2018_1
 
                     IgnoreExeption();
                 }
-                else
+                */
+                if((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC")
                 {
                     ExeptionValidate();
                     return;
                 }
             }
-
-            Console.Write(((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count)+"linha\n");
+            lastState = state;
+            //Console.Write(((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count)+"linha\n");
             if ((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count > 0)
             {
+                
 
-
-                CheckIsString((ConversorToEX(toConvertToHex)));
-                CheckIsComment((ConversorToEX(toConvertToHex)));
+                // CheckIsString((ConversorToEX(toConvertToHex)));
+                // CheckIsComment((ConversorToEX(toConvertToHex)));
 
 
                 if ((configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]) == null)
                 {
-                    FinishWord();
+                    lastState = state;
+
+                    ExeptionValidate();
                     return;
                 }
                 
                 if (indexElementsOfText < text_Char.Length)
                 {
                     int nextState = (int)(configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]);
+                    
                     state = nextState;
                     currentWord += text_Char[indexElementsOfText];
 
@@ -286,11 +368,29 @@ namespace Comp_2018_1
 
         }
 
+        private void FinishExeption()
+        {
+            currentWord = text_Char[indexElementsOfText].ToString();
+            PrintWord();
+            indexElementsOfText++;
+
+            if (indexElementsOfText < text_Char.Length)
+            {
+                RunMachine(0, textDec[indexElementsOfText]);
+            }
+
+        }
+
+
+
         private void ExeptionValidate()
         {
             //retornar a variavel completa anterior
+            if(!string.IsNullOrEmpty(currentWord))
             PrintWord();
             currentWord = text_Char[indexElementsOfText].ToString();
+            PrintWord();
+            currentWord = string.Empty;
             if (indexElementsOfText < text_Char.Length)
             {
                 indexElementsOfText++;
@@ -302,20 +402,35 @@ namespace Comp_2018_1
             }
 
         }
-
+        //string b="";
         private void PrintWord()
-        {
-            Console.Write("."+currentWord);
+        {            
+            string a = currentWord+".";
+            //b +=a;
+            Console.Write(a);
+            if(lastState == 9)
+            {
+                CheckList(currentWord);
+            }
+            
+
         }
 
         private void IgnoreExeption()
         {
+            if(indexElementsOfText < text_Char.Length)
             currentWord += text_Char[indexElementsOfText];
         }
 
-        private void ClassificationLexema()
+        private void ClassificationLexema(string palavra)
         {
+            Table_simbols t = new Table_simbols();
+            t.lexema = palavra;
+            t.token = Token.Id;
+            t.tipo = "";
 
+            Tables_lexema.Add(t);
+            Console.Write("Token: " + t.token + " lexema: " + t.lexema + " tipo: " + t.tipo +"\n");
         }
     }
 }

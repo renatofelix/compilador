@@ -19,7 +19,7 @@
         "28": 25, //  (
         "2a": 23, //  *
         "3b": 26, //  ;
-        "SPACE_TAB_ETC": 0
+        "SPACE_TAB_ETC": {}
       }
     },
     {
@@ -55,7 +55,7 @@
     },
     {
       "state": "6",
-      "next_state": { "L": 4 /*letra*/ }
+      "next_state": { "N": 4 /*numero*/ }
     },
     {
       "state": "7",
@@ -71,9 +71,9 @@
     {
       "state": "9",
       "next_state": {
-        "L": 9, // -
-        "N": 9, // +
-        "5f": 9 // -
+        "L": 9, // L
+        "N": 9, // D
+        "5f": 9 // _
       }
     },
     {
@@ -93,7 +93,9 @@
     },
     {
       "state": "13",
-      "next_state": { "3d": 17 /*=*/ }
+      "next_state": {
+        "3d": 17 //= 
+      }
     },
     {
       "state": "14",
@@ -129,11 +131,11 @@
     },
     {
       "state": "21",
-      "next_state": { "N": 2 /*numeros*/ }
+      "next_state": {}
     },
     {
       "state": "22",
-      "next_state": { "N": 2 /*numeros*/ }
+      "next_state": {}
     },
     {
       "state": "23",

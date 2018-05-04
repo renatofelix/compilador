@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace Comp_2018_1
 {
@@ -6,13 +7,10 @@ namespace Comp_2018_1
     {
         static void Main(string[] args)
         {
-            string text = System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
-            char[] text_Char = text.ToCharArray();
-            //System.Console.WriteLine(text);
-            for(int i = 0; i< text_Char.Length;i++)
-            {
-               System.Console.Write(text_Char[i]);
-            }
+            Lexico lex = new Lexico();
+            lex.MachineStart();
+
+            lex.ShowTable();
             Console.ReadKey(true);
         }
     }

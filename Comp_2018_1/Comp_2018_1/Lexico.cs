@@ -1,11 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Comp_2018_1
 {
     class Lexico
     {
+        public int state;
+        public int lastState = 0 ;
+        public string currentWord;
+        private int indexElementsOfText = 0;
+        private bool itString;
+        private bool itComment;
+
+
+        List<Table_simbols> Tables_lexema = new List<Table_simbols>();
+
+        List<int> finalStates =new List<int>{ 2, 4, 8, 9, 11, 12, 14, 19, 16, 18, 15, 13, 17, 22, 24, 23, 25, 20, 21, 26 };
+        JObject configurationMachine;
+        static JObject preReservada;
+        string reservadaString;
+
+        public static string text;
+        char[] text_Char;
+        byte[] textDec;
+
+        private bool isStriging = false;
+        private bool isCommenting = false;
+
+        public void LoadFiles(int location)
+        {
+            switch (location)
+            {
+                case 1:
+                    configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
+                    preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
+                    reservadaString = preReservada.ToString();
+                    text = System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
+                    text_Char = text.ToCharArray();
+                    textDec = Encoding.ASCII.GetBytes(text);
+                    break;
+                case 2:
+
+                    configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
+                    preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
+                    reservadaString = preReservada.ToString();
+                    text = System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
+                    text_Char = text.ToCharArray();
+                    textDec = Encoding.ASCII.GetBytes(text);
+                    break;
+            }
+        }
+
+
+        /// <summary>
+        /// struct table of symbols 
+        /// </summary>
         public struct Table_simbols
         {
             public Token token;
@@ -13,15 +65,89 @@ namespace Comp_2018_1
             public string tipo;
         }
 
-        public int MachineState(int actualState)
+        public void FeedList()
         {
-            return 0;
+            Table_simbols tab;
+            for (int i = 0; i< 13 ;i++)
+            {
+                tab.lexema = preReservada["reservada"][i]["lexema"].ToString();
+                tab.token = (Token)Enum.Parse(typeof(Token), preReservada["reservada"][i]["token"].ToString());
+                tab.tipo = preReservada["reservada"][i]["tipo"].ToString();
+                Tables_lexema.Add(tab);
+            }            
         }
 
+        /// <summary>
+        /// verifica se o token existe, caso nao exista adiciona ele na tabela
+        /// </summary>
+        /// <param name="lexToCheck"></param>
+        public void CheckList(string lexToCheck)
+        {
+            lastState = 0;
+            int validate = 0;
+            int index = 0;
+            foreach(Table_simbols tb in Tables_lexema)
+            {
+                if (tb.lexema == lexToCheck)
+                {
+                    validate = 1;
+                    break;
+                }
+                index++;
+            }
+            if (validate == 1)
+            {
+                //Console.Write("entrou no validade");
+                Console.Write("<<ja existe>>"+"Token: " + Tables_lexema[index].token + " lexema: " + Tables_lexema[index].lexema + " tipo: " + Tables_lexema[index].tipo + "\n");
+                return;
+            }
+            else
+            {
+                ClassificationLexema(lexToCheck);
+            }
+        }
+
+
+        public void ShowTable()
+        {
+            //Console.Write("\nLexama:\t\tToken:\t\t\tTipo:\n");
+            foreach (Table_simbols a in Tables_lexema)
+            {
+                Console.Write("\n"+a.lexema+"\t\t\t"+a.token+"\t\t\t"+a.tipo);
+            }
+        }
+        
+
+        /// <summary>
+        /// show hexa all text
+        /// </summary>
+        public void TesteShowEx()
+        {
+            for (int i = 0; i < text_Char.Length; i++)
+            {
+                Console.Write(" "+((int)text_Char[i]).ToString("x"));
+            }
+        }
+
+        public int MachineStart()
+        {
+            //TesteShowEx();
+            /*seleciona qual maquina para funcionar*/
+            LoadFiles(1);
+
+            FeedList();
+            state = 0;
+            currentWord = "";
+            RunMachine(state, textDec[indexElementsOfText]);
+            return 0;
+        }
+        /// <summary>
+        /// List of possibles token 
+        /// </summary>
         public enum Token
         {
             Num,
-            Lietral,
+            Literal,
             Id,
             Comentario,
             Tab,
@@ -33,7 +159,278 @@ namespace Comp_2018_1
             OPM,
             AB_P,
             FC_P,
+            inicio,
+            varinicio,
+            varfim,
+            escreva,
+            leia,
+            se,
+            entao,
+            senao,
+            fimse,
+            fim,
+            Inteiro,
+            literal,
+            real,
             ERRO
+        }
+
+        /// <summary>
+        /// convert byte to hexa
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public string ConversorToEX(byte b)
+        {
+            if (isStriging && b!=34)
+                return "QQC";
+            if (isCommenting && b != 125)
+                return "QQC";
+
+            if (b >= 48 && b <= 57)
+                return "N";
+            else if ((b >= 65 && b <= 90) || (b >= 97 && b <= 122))
+                return "L";
+            else if (b >= 9 && b <= 13 || b == 32)
+                return "SPACE_TAB_ETC";
+            return b.ToString("x");
+        }
+
+        private void CheckIsString(string CHAR)
+        {
+            if((ConversorToEX(textDec[indexElementsOfText]) == "22"))
+            {
+                itString = true;
+            }
+        }
+        private void CheckIsComment(string CHAR)
+        {
+            if ((ConversorToEX(textDec[indexElementsOfText]) == "7b"))
+            {
+                itComment = true;
+            }
+        }
+
+        public void RunMachine(int stateMachine, byte toConvertToHex)
+        {
+            
+            /*ignora espacos tab etc, */
+            if (((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC") || (ConversorToEX(toConvertToHex) == "22") || (ConversorToEX(toConvertToHex) == "7b") || isStriging || isCommenting)
+            {
+
+                if(!isStriging && stateMachine == 0 && (ConversorToEX(toConvertToHex) == "22"))
+                {
+                    PrintWord();
+                    isStriging = true;
+                    currentWord = text_Char[indexElementsOfText].ToString();
+                    PrintWord();
+                    indexElementsOfText++;
+                    RunMachine(7, textDec[indexElementsOfText]);
+                    //IgnoreExeption();
+                    return;
+                }
+                if(isStriging && stateMachine == 7)
+                {
+                    if (ConversorToEX(toConvertToHex) != "22")
+                    {
+                        currentWord += text_Char[indexElementsOfText];
+                        indexElementsOfText++;
+                        RunMachine(7, textDec[indexElementsOfText]);
+                        return;
+                    }
+                    else
+                    {
+
+                        isStriging = false;
+                        ExeptionValidate();
+                        return;
+                    }
+                }
+
+                if (!isCommenting && stateMachine == 0 && (ConversorToEX(toConvertToHex) == "7b"))
+                {
+                    PrintWord();
+                    isCommenting = true;
+                    currentWord = text_Char[indexElementsOfText].ToString();
+                    PrintWord();
+                    indexElementsOfText++;
+                    RunMachine(10, textDec[indexElementsOfText]);
+                    //IgnoreExeption();
+                    return;
+                }
+                if (isStriging && stateMachine == 10)
+                {
+                    if (ConversorToEX(toConvertToHex) != "7d")
+                    {
+                        currentWord += text_Char[indexElementsOfText];
+                        indexElementsOfText++;
+                        RunMachine(10, textDec[indexElementsOfText]);
+                        return;
+                    }
+                    else
+                    {
+                        isCommenting = false;
+                        ExeptionValidate();
+                        return;
+                    }
+                }
+
+                /*
+                if((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
+                {
+                    IgnoreExeption();
+                }
+                else {
+                    ExeptionValidate();
+                    return;
+                }
+                */
+
+
+                /*
+                if ((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
+                {
+                    if (itString)
+                        itString = false;
+                    else if (itComment)
+                        itComment = false;
+
+                    IgnoreExeption();
+                }
+                */
+                if((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC")
+                {
+                    ExeptionValidate();
+                    return;
+                }
+            }
+            lastState = state;
+            //Console.Write(((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count)+"linha\n");
+            if ((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count > 0)
+            {
+                
+
+                // CheckIsString((ConversorToEX(toConvertToHex)));
+                // CheckIsComment((ConversorToEX(toConvertToHex)));
+
+
+                if ((configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]) == null)
+                {
+                    lastState = state;
+
+                    ExeptionValidate();
+                    return;
+                }
+                
+                if (indexElementsOfText < text_Char.Length)
+                {
+                    int nextState = (int)(configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]);
+                    
+                    state = nextState;
+                    currentWord += text_Char[indexElementsOfText];
+
+                    indexElementsOfText = indexElementsOfText < text_Char.Length ? indexElementsOfText + 1 : indexElementsOfText;
+                }
+                if(indexElementsOfText < text_Char.Length)
+                {
+                    RunMachine(state, textDec[indexElementsOfText]);
+                }
+                else
+                {
+                    PrintWord();
+                }
+            }
+            else 
+            {
+                FinishWord();
+                return;
+            }
+        }
+
+        private void FinishWord()
+        {
+            //criar o CheckLexema para checar a palavra anterior
+            PrintWord();
+
+            // adiciona a nova palavra na pilha de letras
+            currentWord = text_Char[indexElementsOfText].ToString();
+            //incrementa o index para checar a nova palavra
+
+            indexElementsOfText++;
+            if (indexElementsOfText < text_Char.Length)
+            {
+                RunMachine(0, textDec[indexElementsOfText]);
+            }
+            else
+            {
+                PrintWord();
+            }
+
+        }
+
+        private void FinishExeption()
+        {
+            currentWord = text_Char[indexElementsOfText].ToString();
+            PrintWord();
+            indexElementsOfText++;
+
+            if (indexElementsOfText < text_Char.Length)
+            {
+                RunMachine(0, textDec[indexElementsOfText]);
+            }
+
+        }
+
+
+
+        private void ExeptionValidate()
+        {
+            //retornar a variavel completa anterior
+            if(!string.IsNullOrEmpty(currentWord))
+            PrintWord();
+            currentWord = text_Char[indexElementsOfText].ToString();
+            PrintWord();
+            currentWord = string.Empty;
+            if (indexElementsOfText < text_Char.Length)
+            {
+                indexElementsOfText++;
+                RunMachine(0, textDec[indexElementsOfText]);
+            }
+            else
+            {
+                PrintWord();
+            }
+
+        }
+        //string b="";
+        private void PrintWord()
+        {            
+            string a = currentWord+".";
+            //b +=a;
+            Console.Write(a);
+            if(lastState == 9)
+            {
+                CheckList(currentWord);
+            }
+            
+
+        }
+
+        private void IgnoreExeption()
+        {
+            if(indexElementsOfText < text_Char.Length)
+            currentWord += text_Char[indexElementsOfText];
+        }
+
+        private void ClassificationLexema(string palavra)
+        {
+            Table_simbols t = new Table_simbols();
+            t.lexema = palavra;
+            t.token = Token.Id;
+            t.tipo = "";
+
+            Tables_lexema.Add(t);
+            Console.Write("Token: " + t.token + " lexema: " + t.lexema + " tipo: " + t.tipo +"\n");
         }
     }
 }

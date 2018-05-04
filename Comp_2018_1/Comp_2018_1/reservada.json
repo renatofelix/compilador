@@ -1,0 +1,70 @@
+{
+  "reservada": [
+    {
+      "token": "inicio",
+      "lexema": "inicio",
+      "tipo": ""
+    },
+    {
+      "token": "varinicio",
+      "lexema": "varinicio",
+      "tipo": ""
+    },
+    {
+      "token": "varfim",
+      "lexema": "varfim",
+      "tipo": ""
+    },
+    {
+      "token": "escreva",
+      "lexema": "escreva",
+      "tipo": ""
+    },
+    {
+      "token": "leia",
+      "lexema": "leia",
+      "tipo": ""
+    },
+    {
+      "token": "se",
+      "lexema": "se",
+      "tipo": ""
+    },
+    {
+      "token": "entao",
+      "lexema": "entao",
+      "tipo": ""
+    },
+    {
+      "token": "senao",
+      "lexema": "senao",
+      "tipo": ""
+    },
+    {
+      "token": "fimse",
+      "lexema": "fimse",
+      "tipo": ""
+    },
+    {
+      "token": "fim",
+      "lexema": "fim",
+      "tipo": ""
+    },
+    {
+      "token": "inteiro",
+      "lexema": "inteiro",
+      "tipo": ""
+    },
+    {
+      "token": "literal",
+      "lexema": "literal",
+      "tipo": ""
+    },
+    {
+      "token": "real",
+      "lexema": "real",
+      "tipo": ""
+    }
+  ]
+
+}

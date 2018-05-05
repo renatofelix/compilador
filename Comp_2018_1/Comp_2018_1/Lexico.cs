@@ -14,7 +14,7 @@ namespace Comp_2018_1
         private int indexElementsOfText = 0;
         private bool itString;
         private bool itComment;
-
+        private int line = 1;
 
         List<Table_simbols> Tables_lexema = new List<Table_simbols>();
 
@@ -42,12 +42,21 @@ namespace Comp_2018_1
                     text_Char = text.ToCharArray();
                     textDec = Encoding.ASCII.GetBytes(text);
                     break;
-                case 2:
 
+                case 2:
                     configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
                     preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
                     reservadaString = preReservada.ToString();
                     text = System.IO.File.ReadAllText(@"C:\Users\renat\cc\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
+                    text_Char = text.ToCharArray();
+                    textDec = Encoding.ASCII.GetBytes(text);
+                    break;
+
+                case 3:
+                    configurationMachine = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\T-Gamer\cc\compilador\Comp_2018_1\Comp_2018_1\configuration_state.json"));
+                    preReservada = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\T-Gamer\cc\compilador\Comp_2018_1\Comp_2018_1\reservada.json"));
+                    reservadaString = preReservada.ToString();
+                    text = System.IO.File.ReadAllText(@"C:\Users\T-Gamer\cc\compilador\Comp_2018_1\Comp_2018_1\text_file.txt");
                     text_Char = text.ToCharArray();
                     textDec = Encoding.ASCII.GetBytes(text);
                     break;
@@ -98,7 +107,7 @@ namespace Comp_2018_1
             if (validate == 1)
             {
                 //Console.Write("entrou no validade");
-                Console.Write("<<ja existe>>"+"Token: " + Tables_lexema[index].token + " lexema: " + Tables_lexema[index].lexema + " tipo: " + Tables_lexema[index].tipo + "\n");
+                Console.Write("Token: " + Tables_lexema[index].token + " lexema: " + Tables_lexema[index].lexema + " tipo: " + Tables_lexema[index].tipo + "\n");
                 return;
             }
             else
@@ -133,7 +142,7 @@ namespace Comp_2018_1
         {
             //TesteShowEx();
             /*seleciona qual maquina para funcionar*/
-            LoadFiles(1);
+            LoadFiles(3);
 
             FeedList();
             state = 0;
@@ -159,6 +168,7 @@ namespace Comp_2018_1
             OPM,
             AB_P,
             FC_P,
+            PT_V,
             inicio,
             varinicio,
             varfim,
@@ -169,7 +179,7 @@ namespace Comp_2018_1
             senao,
             fimse,
             fim,
-            Inteiro,
+            inteiro,
             literal,
             real,
             ERRO
@@ -213,6 +223,13 @@ namespace Comp_2018_1
 
         public void RunMachine(int stateMachine, byte toConvertToHex)
         {
+            Countline(text_Char[indexElementsOfText]);
+            if(!ExistCharacter(text_Char[indexElementsOfText])&&(!isStriging || !isCommenting))
+            {
+                ErrorLog(3);
+                return;
+            }
+            // Console.Write(stateMachine);
             
             /*ignora espacos tab etc, */
             if (((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC") || (ConversorToEX(toConvertToHex) == "22") || (ConversorToEX(toConvertToHex) == "7b") || isStriging || isCommenting)
@@ -223,7 +240,7 @@ namespace Comp_2018_1
                     PrintWord();
                     isStriging = true;
                     currentWord = text_Char[indexElementsOfText].ToString();
-                    PrintWord();
+                    //PrintWord();
                     indexElementsOfText++;
                     RunMachine(7, textDec[indexElementsOfText]);
                     //IgnoreExeption();
@@ -234,13 +251,22 @@ namespace Comp_2018_1
                     if (ConversorToEX(toConvertToHex) != "22")
                     {
                         currentWord += text_Char[indexElementsOfText];
-                        indexElementsOfText++;
+                        if (indexElementsOfText < text_Char.Length-1)
+                            indexElementsOfText++;
+                        else
+                        {
+                            ErrorLog(1);
+                            return;
+                        }
+                           
                         RunMachine(7, textDec[indexElementsOfText]);
                         return;
                     }
                     else
                     {
-
+                        currentWord += text_Char[indexElementsOfText];
+                        lastState = 8;
+                        indexElementsOfText++;
                         isStriging = false;
                         ExeptionValidate();
                         return;
@@ -252,67 +278,49 @@ namespace Comp_2018_1
                     PrintWord();
                     isCommenting = true;
                     currentWord = text_Char[indexElementsOfText].ToString();
-                    PrintWord();
                     indexElementsOfText++;
                     RunMachine(10, textDec[indexElementsOfText]);
-                    //IgnoreExeption();
                     return;
                 }
-                if (isStriging && stateMachine == 10)
+                if (isCommenting && stateMachine == 10)
                 {
                     if (ConversorToEX(toConvertToHex) != "7d")
                     {
                         currentWord += text_Char[indexElementsOfText];
-                        indexElementsOfText++;
+                        if (indexElementsOfText < text_Char.Length - 1)
+                            indexElementsOfText++;
+                        else
+                        {
+                            ErrorLog(2);
+                            return;
+                        }
                         RunMachine(10, textDec[indexElementsOfText]);
                         return;
                     }
                     else
                     {
+                        currentWord += text_Char[indexElementsOfText];
+                        lastState = 11;
+                        indexElementsOfText++;
                         isCommenting = false;
                         ExeptionValidate();
                         return;
                     }
                 }
-
-                /*
-                if((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
-                {
-                    IgnoreExeption();
-                }
-                else {
-                    ExeptionValidate();
-                    return;
-                }
-                */
-
-
-                /*
-                if ((ConversorToEX(toConvertToHex)) != "SPACE_TAB_ETC")
-                {
-                    if (itString)
-                        itString = false;
-                    else if (itComment)
-                        itComment = false;
-
-                    IgnoreExeption();
-                }
-                */
+                
                 if((ConversorToEX(toConvertToHex)) == "SPACE_TAB_ETC")
                 {
                     ExeptionValidate();
                     return;
                 }
             }
-            lastState = state;
+            
             //Console.Write(((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count)+"linha\n");
             if ((configurationMachine["configuration"][stateMachine]["next_state"] as JObject).Count > 0)
             {
-                
-
-                // CheckIsString((ConversorToEX(toConvertToHex)));
-                // CheckIsComment((ConversorToEX(toConvertToHex)));
-
+                if (toConvertToHex == 59)
+                {}
+                //lastState = state;
 
                 if ((configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]) == null)
                 {
@@ -327,6 +335,7 @@ namespace Comp_2018_1
                     int nextState = (int)(configurationMachine["configuration"][stateMachine]["next_state"][ConversorToEX(toConvertToHex)]);
                     
                     state = nextState;
+                    lastState = nextState;
                     currentWord += text_Char[indexElementsOfText];
 
                     indexElementsOfText = indexElementsOfText < text_Char.Length ? indexElementsOfText + 1 : indexElementsOfText;
@@ -382,16 +391,26 @@ namespace Comp_2018_1
         }
 
 
-
+         private void  Midware()
+        {
+            currentWord = string.Empty;
+            state = 0;
+            RunMachine(0, textDec[indexElementsOfText]);
+        }
+    
         private void ExeptionValidate()
         {
             //retornar a variavel completa anterior
-            if(!string.IsNullOrEmpty(currentWord))
-            PrintWord();
+            if (!string.IsNullOrEmpty(currentWord))
+            {
+                PrintWord();
+                Midware();
+                return;
+            }
             currentWord = text_Char[indexElementsOfText].ToString();
             PrintWord();
             currentWord = string.Empty;
-            if (indexElementsOfText < text_Char.Length)
+            if (indexElementsOfText < text_Char.Length-1)
             {
                 indexElementsOfText++;
                 RunMachine(0, textDec[indexElementsOfText]);
@@ -405,13 +424,20 @@ namespace Comp_2018_1
         //string b="";
         private void PrintWord()
         {            
-            string a = currentWord+".";
+            string a = currentWord ;
             //b +=a;
             Console.Write(a);
+            
+            
             if(lastState == 9)
             {
                 CheckList(currentWord);
             }
+            else
+            {
+                ClassificationLexemaComplete(currentWord);
+            }
+            lastState = 0;
             
 
         }
@@ -430,7 +456,86 @@ namespace Comp_2018_1
             t.tipo = "";
 
             Tables_lexema.Add(t);
-            Console.Write("Token: " + t.token + " lexema: " + t.lexema + " tipo: " + t.tipo +"\n");
+            Console.Write("Token: " + t.token + "\t lexema: " + t.lexema + "\t tipo: " + t.tipo +"");
+        }
+
+        private void ClassificationLexemaComplete(string palavra)
+        {
+           
+            switch( lastState)
+            {
+                case 0:
+
+                break;
+
+                case 2|4:
+                    Console.Write("Token: " + Token.Num + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 9:
+                    Console.Write("Token: " + Token.Id + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 11:
+                    Console.Write("Token: " + Token.Comentario + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 12:
+                    Console.Write("Token: " + Token.EOF + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 8:
+                    Console.Write("Token: " + Token.literal + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 19:
+                    Console.Write("Token: " + Token.RCB + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 14|16|18|15|13|17:
+                    Console.Write("Token: " + Token.OPR + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 22 | 21 | 20 | 23:
+                    Console.Write("Token: " + Token.OPM + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 25:
+                    Console.Write("Token: " + Token.AB_P + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 24:
+                    Console.Write("Token: " + Token.FC_P + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+                case 26:
+                    Console.Write("Token: " + Token.PT_V + "\t lexema: " + palavra + "\t tipo: " + " " + "");
+                    break;
+            }
+
+        }
+
+        private void Countline(char a)
+        {
+            if (a == '\n' && !isStriging && !isCommenting)
+            {
+                line++; }
+          
+        }
+
+        private bool ExistCharacter(char c)
+        {
+            if (c == '@' || c == '#' || c == '%' || c == '$' || c == '¨' || c == '&'||c == '!')
+                return false;
+            else return true;
+        }
+
+        private void ErrorLog(int errorNumber)
+        {
+            switch (errorNumber)
+            {
+                case 1:
+                    Console.Write("Erro na linha "+ line + "!!!,  não fechou STRING ");
+                    break;
+                case 2:
+                    Console.Write("Erro na linha " + line + "!!!,  não fechou COMENTARIO ");
+                    break;
+                case 3:
+                    Console.Write("\nErro na linha " + line + "!!!,  Caracter Invalido!\n");
+                    break;
+
+            }
+                
         }
     }
 }

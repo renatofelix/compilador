@@ -6,6 +6,8 @@
 		C real;
 	varfim;
 
+	{comentario}
+
 	escreva "Digite B";
 	leia B;
 	escreva "Digite A:";

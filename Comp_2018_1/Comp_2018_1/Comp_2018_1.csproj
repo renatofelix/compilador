@@ -9,4 +9,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties tabelaDeEstados_1json__JSONSchema="http://json.schemastore.org/band-manifest" /></VisualStudio></ProjectExtensions>
+
 </Project>

@@ -1,0 +1,152 @@
+{
+  "tabela": {
+    "estado": {
+      "1": {
+        "P'": [ "P" ],
+        "reducao": "P'",
+        "size": 1
+      },
+      "2": {
+        "P": [ "inicio", "V", "A" ],
+        "reducao": "P",
+        "size": 3
+      },
+      "3": {
+        "V": [ "varinicio", "LV" ],
+        "reducao": "V",
+        "size": 2
+      },
+      "4": {
+        "LV": [ "D", "LV" ],
+        "reducao": "LV",
+        "size": 2
+      },
+      "5": {
+        "LV": [ "varfim", "PT_V" ],
+        "reducao": "LV",
+        "size": 2
+      },
+      "6": {
+        "D": [ "id", "TIPO", "PT_V" ],
+        "reducao": "D",
+        "size": 3
+      },
+      "7": {
+        "TIPO": [ "int" ],
+        "reducao": "TIPO",
+        "size": 1
+
+      },
+      "8": {
+        "TIPO": [ "real" ],
+        "reducao": "TIPO",
+        "size": 1
+      },
+      "9": {
+        "TIPO": [ "lit" ],
+        "reducao": "TIPO",
+        "size": 1
+      },
+      "11": {
+        "ES": [ "leia", "id", "PT_V" ],
+        "reducao": "ES",
+        "size": 3
+      },
+      "12": {
+        "ES": [ "escreva", "ARG", "PT_V" ],
+        "reducao": "ES",
+        "size": 3
+      },
+      "13": {
+        "ARG": [ "lit" ],
+        "reducao": "ARG",
+        "size": 1
+      },
+      "14": {
+        "ARG": [ "num" ],
+        "reducao": "ARG",
+        "size": 1
+      },
+      "15": {
+        "ARG": [ "id" ],
+        "reducao": "ARG",
+        "size": 1
+      },
+      "16": {
+        "A": [ "ES", "A" ],
+        "reducao": "A",
+        "size": 2
+      },
+      "17": {
+        "CMD": [ "id", "rcb", "LD", "PT_V" ],
+        "reducao": "CMD",
+        "size": 4
+      },
+      "18": {
+        "LD": [ "OPR", "opm", "OPRD" ],
+        "reducao": "LD",
+        "size": 3
+      },
+      "19": {
+        "LD": [ "OPRD" ],
+        "reducao": "LD",
+        "size": 1
+      },
+      "20": {
+        "OPRD": [ "id" ],
+        "reducao": "OPRD",
+        "size": 1
+      },
+      "21": {
+        "OPRD": [ "inteiro" ],
+        "reducao": "OPRD",
+        "size": 1
+      },
+      "22": {
+        "A": [ "COND", "A" ],
+        "reducao": "A",
+        "size": 2
+      },
+      "23": {
+        "COND": [ "CABECALHO", "CORPO" ],
+        "reducao": "COND",
+        "size": 2
+      },
+      "24": {
+        "CABECALHO": [ "se", "AB_P", "EXP_R", "FC_P", "entao" ],
+        "reducao": "CABECALHO",
+        "size": 5
+      },
+      "25": {
+        "EXP_R": [ "OPRD", "opr", "OPRD" ],
+        "reducao": "EXP_R",
+        "size": 3
+      },
+      "26": {
+        "CORPO": [ "ES", "CORPO" ],
+        "reducao": "CORPO",
+        "size": 2
+      },
+      "27": {
+        "CORPO": [ "CMD", "CORPO" ],
+        "reducao": "CORPO",
+        "size": 2
+      },
+      "28": {
+        "CORPO": [ "COND", "CORPO" ],
+        "reducao": "CORPO",
+        "size": 2
+      },
+      "29": {
+        "CORPO": [ "fimse" ],
+        "reducao": "CORPO",
+        "size": 1
+      },
+      "30": {
+        "A": [ "fim" ],
+        "reducao": "A",
+        "size": 1
+      }
+    }
+  }
+}

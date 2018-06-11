@@ -1,0 +1,523 @@
+{
+  "tabela": [
+    {
+      "state": "0",
+      "next_state": {
+        "inicio": [ "shift", 2 ],
+        "varinicio": [ "shift", 4 ], 
+        "$": [ "reduce", 1 ],
+        "P": 1
+      }
+    },
+    {
+      "state": "1",
+      "next_state": {
+        "$": "aceita" 
+      }
+    },
+    {
+      "state": "2",
+      "next_state": {
+        "varinicio": [ "shift", 4 ],
+        "V": 3
+      }
+    },
+    {
+      "state": "3",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fim": [ "shift", 17 ],
+        "A": 5,
+        "ES": 6,
+        "CMD": 7,
+        "COND": 8,
+        "CABECALHO": 9
+      }
+    },
+    {
+      "state": "4",
+      "next_state": {
+        "varfim": [ "shift", 12 ],
+        "id": [ "shift", 13 ],
+        "LV": 10,
+        "D": 11
+      }
+    },
+    {
+      "state": "5",
+      "next_state": {
+        "$": [ "reduce", 2 ]
+      }
+    },
+    {
+      "state": "6",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fim": [ "shift", 17 ],
+        "A": 14,
+        "ES": 6,
+        "CMD": 7,
+        "COND": 8,
+        "CABECALHO": 9
+      }
+    },
+    {
+      "state": "7",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fim": [ "shift", 17 ],
+        "A": 21,
+        "ES": 6,
+        "CMD": 7,
+        "COND": 8,
+        "CABECALHO": 9
+      }
+    },
+    {
+      "state": "8",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fim": [ "shift", 17 ],
+        "A": 23,
+        "ES": 6,
+        "CMD": 7,
+        "COND": 8,
+        "CABECALHO": 9
+      }
+    },
+    {
+      "state": "9",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fimse": [ "shift", 28 ],
+        "CABECALHO": 9,
+        "ES": 25,
+        "CMD": 26,
+        "COND": 27,
+        "CORPO": 24
+      }
+    },
+    {
+      "state": "10",
+      "next_state": {
+        "leia": [ "reduce", 3 ],
+        "escreva": [ "reduce", 3 ],
+        "id": [ "reduce", 3 ],
+        "se": [ "reduce", 3 ],
+        "fim": [ "reduce", 3 ]
+      }
+    },
+    {
+      "state": "11",
+      "next_state": {
+        "varfim": [ "shift", 12 ],
+        "id": [ "shift", 13 ],
+        "LV": 43,
+        "D": 11
+      }
+    },
+    {
+      "state": "12",
+      "next_state": {
+        "PT_V": [ "shift", 29 ]
+      }
+    },
+    {
+      "state": "13",
+      "next_state": {
+        "inteiro": [ "shift", 31 ],
+        "real": [ "shift", 32 ],
+        "lit": [ "shift", 33 ],
+        "TIPO": 30
+      }
+    },
+    {
+      "state": "14",
+      "next_state": {
+        "$": [ "reduce", 10 ]
+      }
+    },
+    {
+      "state": "15",
+      "next_state": {
+        "PT_V": [ "shift", 16 ]
+      }
+    },
+    {
+      "state": "16",
+      "next_state": {
+        "leia": [ "reduce", 11 ],
+        "escreva": [ "reduce", 11 ],
+        "id": [ "reduce", 11 ],
+        "se": [ "reduce", 11 ],
+        "fimse": [ "reduce", 11 ],
+        "fim": [ "reduce", 11 ]
+
+      }
+    },
+    {
+      "state": "17",
+      "next_state": {
+        "$": [ "reduce", 30 ]
+      }
+    },
+    {
+      "state": "18",
+      "next_state": {
+        "id": [ "shift", 15 ]
+      }
+    },
+    {
+      "state": "19",
+      "next_state": {
+        "id": [ "shift", 37 ],
+        "lit": [ "shift", 35 ],
+        "inteiro": [ "shift", 36 ],
+        "ARG": 34
+      }
+    },
+    {
+      "state": "20",
+      "next_state": {
+        "rcb": [ "shift", 38 ],
+        "OPRD":38
+      }
+    },
+    {
+      "state": "21",
+      "next_state": {
+        "$": [ "reduce", 16 ]
+      }
+    },
+    {
+      "state": "22",
+      "next_state": {
+        "AB_P": [ "shift", 39 ]
+      }
+    },
+    {
+      "state": "23",
+      "next_state": {
+        "$": [ "reduce", 22 ]
+      }
+    },
+    {
+      "state": "24",
+      "next_state": {
+        "leia": [ "reduce", 23 ],
+        "escreva": [ "reduce", 23 ],
+        "id": [ "reduce", 23 ],
+        "se": [ "reduce", 23 ],
+        "fimse": [ "reduce", 23 ],
+        "fim": [ "reduce", 23 ]
+      }
+    },
+    {
+      "state": "25",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fimse": [ "shift", 28 ],
+        "ES": 25,
+        "CMD": 26,
+        "COND": 27,
+        "CABECALHO": 9,
+        "CORPO": 40
+      }
+    },
+    {
+      "state": "26",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fimse": [ "shift", 28 ],
+        "ES": 25,
+        "CMD": 26,
+        "COND": 27,
+        "CABECALHO": 9,
+        "CORPO": 41
+      }
+    },
+
+    {
+      "state": "27",
+      "next_state": {
+        "leia": [ "shift", 18 ],
+        "escreva": [ "shift", 19 ],
+        "id": [ "shift", 20 ],
+        "se": [ "shift", 22 ],
+        "fimse": [ "shift", 28 ],
+        "ES": 25,
+        "CMD": 26,
+        "COND": 27,
+        "CABECALHO": 9,
+        "CORPO": 42
+      }
+    },
+    {
+      "state": "28",
+      "next_state": {
+        "leia": [ "reduce", 29 ],
+        "escreva": [ "reduce", 29 ],
+        "id": [ "reduce", 29 ],
+        "se": [ "reduce", 29 ],
+        "fimse": [ "reduce", 29 ],
+        "fim": [ "reduce", 29 ]
+      }
+    },
+    {
+      "state": "29",
+      "next_state": {
+        "leia": [ "reduce", 5 ],
+        "escreva": [ "reduce", 5 ],
+        "id": [ "reduce", 5 ],
+        "se": [ "reduce", 5 ],
+        "fim": [ "reduce", 5 ]
+      }
+    },
+    {
+      "state": "30",
+      "next_state": {
+        "PT_V": [ "shift", 44 ]
+      }
+    },
+    {
+      "state": "31",
+      "next_state": {
+        "PT_V": [ "reduce", 7 ]
+      }
+    },
+    {
+      "state": "32",
+      "next_state": {
+        "PT_V": [ "reduce", 8 ]
+      }
+    },
+    {
+      "state": "33",
+      "next_state": {
+        "PT_V": [ "reduce", 9 ]
+      }
+    },
+    {
+      "state": "34",
+      "next_state": {
+        "PT_V": [ "shift", 45 ]
+      }
+    },
+    {
+      "state": "35",
+      "next_state": {
+        "PT_V": [ "reduce", 13 ]
+      }
+    },
+    {
+      "state": "36",
+      "next_state": {
+        "PT_V": [ "reduce", 14 ]
+      }
+    },
+    {
+      "state": "37",
+      "next_state": {
+        "PT_V": [ "reduce", 15 ]
+      }
+    },
+    {
+      "state": "38",
+      "next_state": {
+        "id": [ "shift", 48 ],
+        "inteiro": [ "shift", 49 ],
+        "LD": 46,
+        "OPRD": 47
+      }
+    },
+    {
+      "state": "39",
+      "next_state": {
+        "id": [ "shift", 48 ],
+        "inteiro": [ "shift", 49 ],
+        "OPRD": 55,
+        "EXP_R": 50
+      }
+    },
+    {
+      "state": "40",
+      "next_state": {
+        "leia": [ "reduce", 26 ],
+        "escreva": [ "reduce", 26 ],
+        "id": [ "reduce", 26 ],
+        "se": [ "reduce", 26 ],
+        "fimse": [ "reduce", 26 ],
+        "fim": [ "reduce", 26 ]
+      }
+    },
+    {
+      "state": "41",
+      "next_state": {
+        "leia": [ "reduce", 27 ],
+        "escreva": [ "reduce", 27 ],
+        "id": [ "reduce", 27 ],
+        "se": [ "reduce", 27 ],
+        "fimse": [ "reduce", 27 ],
+        "fim": [ "reduce", 27 ]
+      }
+    },
+    {
+      "state": "42",
+      "next_state": {
+        "leia": [ "reduce", 28 ],
+        "escreva": [ "reduce", 28 ],
+        "id": [ "reduce", 28 ],
+        "se": [ "reduce", 28 ],
+        "fimse": [ "reduce", 28 ],
+        "fim": [ "reduce", 28 ]
+      }
+    },
+    {
+      "state": "43",
+      "next_state": {
+        "leia": [ "reduce", 4 ],
+        "escreva": [ "reduce", 4 ],
+        "id": [ "reduce", 4 ],
+        "se": [ "reduce", 4 ],
+        "fim": [ "reduce", 4 ]
+      }
+    },
+    {
+      "state": "44",
+      "next_state": {
+        "varfim": [ "reduce", 6 ],
+        "id": [ "reduce", 6 ]
+      }
+    },
+    {
+      "state": "45",
+      "next_state": {
+        "leia": [ "reduce", 12 ],
+        "escreva": [ "reduce", 12 ],
+        "id": [ "reduce", 12 ],
+        "se": [ "reduce", 12 ],
+        "fimse": [ "reduce", 12 ],
+        "fim": [ "reduce", 12 ]
+      }
+    },
+    {
+      "state": "46",
+      "next_state": {
+        "PT_V": [ "shift", 58 ]
+      }
+    },
+    {
+      "state": "47",
+      "next_state": {
+        "opm": [ "shift", 51 ],
+        "OPRD": 19 
+      }
+    },
+    {
+      "state": "48",
+      "next_state": {
+        "PT_V": [ "reduce", 20 ],
+        "opm": [ "reduce", 20 ],
+        "FC_P": [ "reduce", 20 ],
+        "opr": [ "reduce", 20 ]
+      }
+    },
+    {
+      "state": "49",
+      "next_state": {
+        "PT_V": [ "reduce", 21 ],
+        "opm": [ "reduce", 21 ],
+        "FC_P": [ "reduce", 21 ],
+        "opr": [ "reduce", 21 ]
+      }
+    },
+    {
+      "state": "50",
+      "next_state": {
+        "FC_P": [ "shift", 52 ]
+      }
+    },
+    {
+      "state": "51",
+      "next_state": {
+        "id": [ "shift", 48 ],
+        "inteiro": [ "shift", 49 ],
+        "OPRD":  53
+      }
+    },
+    {
+      "state": "52",
+      "next_state": {
+        "entao": [ "shift", 54 ]
+      }
+    },
+    {
+      "state": "53",
+      "next_state": {
+        "PT_V": [ "reduce", 18 ]
+      }
+    },
+    {
+      "state": "54",
+      "next_state": {
+        "leia": [ "reduce", 24 ],
+        "escreva": [ "reduce", 24 ],
+        "id": [ "reduce", 24 ],
+        "se": [ "reduce", 24 ],
+        "fimse": [ "reduce", 24 ]
+      }
+    },
+    {
+      "state": "55",
+      "next_state": {
+        "opr": [ "shift", 56 ]
+      }
+    },
+    {
+      "state": "56",
+      "next_state": {
+        "id": [ "shift", 48 ],
+        "inteiro": [ "shift", 49 ],
+        "OPRD": 57
+      }
+    },
+    {
+      "state": "57",
+      "next_state": {
+        "FC_P": [ "reduce", 25 ]
+      }
+    },
+    {
+      "state": "58",
+      "next_state": {
+        "leia": [ "reduce", 17 ],
+        "escreva": [ "reduce", 17 ],
+        "id": [ "reduce", 17 ],
+        "se": [ "reduce", 17 ],
+        "fim": [ "reduce", 17 ],
+        "fimse": [ "reduce", 17 ]
+      }
+    }
+  ]
+}

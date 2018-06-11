@@ -8,9 +8,13 @@ namespace Comp_2018_1
         static void Main(string[] args)
         {
             Lexico lex = new Lexico();
+            Sintatico sin = new Sintatico();
             lex.MachineStart();
+            //lex.ShowListToSend();
+            sin.MachineStart();
 
-            lex.ShowTable();
+
+            //lex.ShowTable();
             Console.ReadKey(true);
         }
     }

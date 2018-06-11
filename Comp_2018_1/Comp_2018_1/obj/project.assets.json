@@ -702,25 +702,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\T-Gamer\\.nuget\\packages\\": {},
+    "C:\\Users\\Renato\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\T-Gamer\\cc\\compilador\\Comp_2018_1\\Comp_2018_1\\Comp_2018_1.csproj",
+      "projectUniqueName": "C:\\Users\\Renato\\compilador\\Comp_2018_1\\Comp_2018_1\\Comp_2018_1.csproj",
       "projectName": "Comp_2018_1",
-      "projectPath": "C:\\Users\\T-Gamer\\cc\\compilador\\Comp_2018_1\\Comp_2018_1\\Comp_2018_1.csproj",
-      "packagesPath": "C:\\Users\\T-Gamer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\T-Gamer\\cc\\compilador\\Comp_2018_1\\Comp_2018_1\\obj\\",
+      "projectPath": "C:\\Users\\Renato\\compilador\\Comp_2018_1\\Comp_2018_1\\Comp_2018_1.csproj",
+      "packagesPath": "C:\\Users\\Renato\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Renato\\compilador\\Comp_2018_1\\Comp_2018_1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\T-Gamer\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Renato\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],

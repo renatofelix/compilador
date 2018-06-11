@@ -30,6 +30,7 @@ namespace Comp_2018_1
                 
                 case 1:
                     tabelaLexica = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\tabelaDeEstados.json"));
+                    tabelaSintatica = JObject.Parse(System.IO.File.ReadAllText(@"C:\Users\Renato\compilador\Comp_2018_1\Comp_2018_1\tabelaSintatica.json"));
                     break;
 
                 case 2:
@@ -53,7 +54,7 @@ namespace Comp_2018_1
             PilhaDeProducoes.Clear();
             PilhaEstados.Push(estado);
             //CountLexico = Lexico.listLexica.Count;
-            LoadFiles(3);
+            LoadFiles(1);
 
 
             MainMachineSintatico();
@@ -134,7 +135,7 @@ namespace Comp_2018_1
             estado = PilhaEstados.Peek();
             Console.Write(estado+" ");
 
-            //if(Int32.Parse(tabelaLexica["tabela"][estado]["next_state"][Reduzido].ToString())== 38)
+            if(estado == 38)
             {}
 
             estado = Int32.Parse(tabelaLexica["tabela"][estado]["next_state"][Reduzido].ToString());

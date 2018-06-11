@@ -47,6 +47,11 @@
         "reducao": "TIPO",
         "size": 1
       },
+      "10": {
+        "A": [ "ES","A" ],
+        "reducao": "A",
+        "size": 2
+      },
       "11": {
         "ES": [ "leia", "id", "PT_V" ],
         "reducao": "ES",
@@ -63,7 +68,7 @@
         "size": 1
       },
       "14": {
-        "ARG": [ "num" ],
+        "ARG": [ "inteiro" ],
         "reducao": "ARG",
         "size": 1
       },
@@ -73,7 +78,7 @@
         "size": 1
       },
       "16": {
-        "A": [ "ES", "A" ],
+        "A": [ "CMD", "A" ],
         "reducao": "A",
         "size": 2
       },

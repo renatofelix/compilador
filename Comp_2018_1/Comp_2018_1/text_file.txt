@@ -5,7 +5,6 @@
 		D inteiro;
 		C real;
 	varfim;
-
 	{comentario}
 
 	escreva "Digite B";

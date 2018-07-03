@@ -3,28 +3,23 @@
     "estado": {
       "1": {
         "P'": [ "P" ],
-        "reducao": "P'",
-        "size": 1
+        "do": {}
       },
       "2": {
         "P": [ "inicio", "V", "A" ],
-        "reducao": "P",
-        "size": 3
+        "do": {}
       },
       "3": {
         "V": [ "varinicio", "LV" ],
-        "reducao": "V",
-        "size": 2
+        "do": {}
       },
       "4": {
         "LV": [ "D", "LV" ],
-        "reducao": "LV",
-        "size": 2
+        "do": {}
       },
       "5": {
         "LV": [ "varfim", "PT_V" ],
-        "reducao": "LV",
-        "size": 2
+        "print": "\n\n\n"
       },
       "6": {
         "D": [ "id", "TIPO", "PT_V" ],
@@ -33,7 +28,7 @@
       },
       "7": {
         "TIPO": [ "int" ],
-        "reducao": "TIPO",
+        "atribuicao": "inteiro.tipo",
         "size": 1
 
       },
@@ -114,8 +109,7 @@
       },
       "23": {
         "COND": [ "CABECALHO", "CORPO" ],
-        "reducao": "COND",
-        "size": 2
+        "print": "}"
       },
       "24": {
         "CABECALHO": [ "se", "AB_P", "EXP_R", "FC_P", "entao" ],
@@ -129,28 +123,23 @@
       },
       "26": {
         "CORPO": [ "ES", "CORPO" ],
-        "reducao": "CORPO",
-        "size": 2
+        "do": {}
       },
       "27": {
         "CORPO": [ "CMD", "CORPO" ],
-        "reducao": "CORPO",
-        "size": 2
+        "do": {}
       },
       "28": {
         "CORPO": [ "COND", "CORPO" ],
-        "reducao": "CORPO",
-        "size": 2
+        "do": {}
       },
       "29": {
         "CORPO": [ "fimse" ],
-        "reducao": "CORPO",
-        "size": 1
+        "do": {}
       },
       "30": {
         "A": [ "fim" ],
-        "reducao": "A",
-        "size": 1
+        "do": {}
       }
     }
   }

@@ -4,7 +4,6 @@
       "state": "0",
       "next_state": {
         "inicio": [ "shift", 2 ],
-        "varinicio": [ "shift", 4 ], 
         "$": [ "reduce", 1 ],
         "P": 1
       }
@@ -195,7 +194,7 @@
       "state": "20",
       "next_state": {
         "rcb": [ "shift", 38 ],
-        "OPRD":38
+        "OPRD": 38
       }
     },
     {
@@ -347,7 +346,7 @@
       "next_state": {
         "id": [ "shift", 48 ],
         "inteiro": [ "shift", 49 ],
-        "LD": 46,
+        "LD":  46 ,
         "OPRD": 47
       }
     },
@@ -431,7 +430,7 @@
       "state": "47",
       "next_state": {
         "opm": [ "shift", 51 ],
-        "OPRD": 19 
+        "PT_V": [ "reduce", 19 ]
       }
     },
     {

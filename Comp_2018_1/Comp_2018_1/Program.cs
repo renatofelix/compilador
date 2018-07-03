@@ -10,11 +10,12 @@ namespace Comp_2018_1
             Lexico lex = new Lexico();
             Sintatico sin = new Sintatico();
             lex.MachineStart();
+            
             //lex.ShowListToSend();
             sin.MachineStart();
 
 
-            //lex.ShowTable();
+            lex.ShowTable();
             Console.ReadKey(true);
         }
     }

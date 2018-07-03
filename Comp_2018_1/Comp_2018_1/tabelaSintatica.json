@@ -48,7 +48,11 @@
         "size": 1
       },
       "10": {
+<<<<<<< HEAD
         "A": [ "ES", "A" ],
+=======
+        "A": [ "ES","A" ],
+>>>>>>> 8130d1db647a00965902eba5e3575dcf597af64a
         "reducao": "A",
         "size": 2
       },
@@ -68,7 +72,7 @@
         "size": 1
       },
       "14": {
-        "ARG": [ "num" ],
+        "ARG": [ "inteiro" ],
         "reducao": "ARG",
         "size": 1
       },
@@ -78,7 +82,7 @@
         "size": 1
       },
       "16": {
-        "A": [ "ES", "A" ],
+        "A": [ "CMD", "A" ],
         "reducao": "A",
         "size": 2
       },

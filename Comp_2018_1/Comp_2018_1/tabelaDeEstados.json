@@ -430,7 +430,11 @@
       "state": "47",
       "next_state": {
         "opm": [ "shift", 51 ],
+<<<<<<< HEAD
         "PT_V": [ "reduce", 19 ]
+=======
+        "PT_V": 19 
+>>>>>>> 8130d1db647a00965902eba5e3575dcf597af64a
       }
     },
     {
@@ -462,7 +466,8 @@
       "next_state": {
         "id": [ "shift", 48 ],
         "inteiro": [ "shift", 49 ],
-        "OPRD":  53
+        "OPRD": 53,
+        "PT_V": 18
       }
     },
     {

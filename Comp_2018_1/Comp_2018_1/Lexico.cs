@@ -162,7 +162,7 @@ namespace Comp_2018_1
         {
             //TesteShowEx();
             /*seleciona qual maquina para funcionar*/
-            LoadFiles(3);
+            LoadFiles(1);
 
             FeedList();
             state = 0;

@@ -127,6 +127,8 @@ namespace Comp_2018_1
             {
                 //Console.Write("entrou no validade");
                 //Console.Write("Token: " + Tables_lexema[index].token + " lexema: " + Tables_lexema[index].lexema + " tipo: " + Tables_lexema[index].tipo + "\n");
+                if(Tables_lexema[index].lexema == "A")
+                { }
                 listLexica.Add(Tables_lexema[index]);
                 return Tables_lexema[index];
             }
@@ -162,7 +164,7 @@ namespace Comp_2018_1
         {
             //TesteShowEx();
             /*seleciona qual maquina para funcionar*/
-            LoadFiles(1);
+            LoadFiles(3);
 
             FeedList();
             state = 0;
@@ -600,7 +602,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.RCB + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opr;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -610,7 +612,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.RCB + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.rcb;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = "=";
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -620,7 +622,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPR + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opr;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -630,7 +632,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPR + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opr;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -640,7 +642,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPR + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opr;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -650,7 +652,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPR + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opr;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -660,7 +662,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPR + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opr;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -670,7 +672,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPM + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opm;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -680,7 +682,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPM + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opm;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -690,7 +692,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPM + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opm;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;
@@ -700,7 +702,7 @@ namespace Comp_2018_1
                     //Console.Write("Token: " + Token.OPM + "\t lexema: " + palavra + "\t tipo: " + " " + "");
                     lexicoEnviado.token = Token.opm;
                     lexicoEnviado.lexema = palavra;
-                    lexicoEnviado.tipo = null;
+                    lexicoEnviado.tipo = palavra;
                     listLexica.Add(lexicoEnviado);
                     return lexicoEnviado;
                     break;

@@ -35,7 +35,7 @@ namespace Comp_2018_1
 
         Lexico.Table_simbols manipulador = new Lexico.Table_simbols();
 
-        //struct 
+        bool erroSemantico;
 
 
 
@@ -109,12 +109,17 @@ namespace Comp_2018_1
             using (System.IO.StreamWriter file =
             new System.IO.StreamWriter(@"C:\Users\T-Gamer\cc\compilador\Comp_2018_1\Comp_2018_1\programa.c"))
             {
+                file.WriteLine(cabecalhoPromgramaC);
                 foreach (string line in saidaArquivo)
                 {
                     file.WriteLine(line);
                 }
+                file.WriteLine(rodapeProgramaC);
             }
         }
+
+        public string cabecalhoPromgramaC = "#include<stdio.h>\ntypedef char literal[256];\nvoid main(void)\n{ ";
+        public string rodapeProgramaC = "}";
 
 
         public void MainMachineSintatico()
@@ -134,6 +139,8 @@ namespace Comp_2018_1
             while (true)
             {
 
+                if (erroSemantico)
+                    break;
 
                 try
                 {
@@ -163,9 +170,9 @@ namespace Comp_2018_1
 
                         foreach (var item in PilhaDeProducoes)
                         {
-                            Console.Write(item + " ");
+                        //    Console.Write(item + " ");
                         }
-                        Console.Write("\n");
+                       // Console.Write("\n");
                         possicaoDalista++;
                     }
                     else if (tabelaLexica["tabela"][estado]["next_state"][TraformCifra(Lexico.listLexica[possicaoDalista])].Type == JTokenType.Array && tabelaLexica["tabela"][estado]["next_state"][TraformCifra(Lexico.listLexica[possicaoDalista])][0].ToString() == "reduce")
@@ -216,13 +223,6 @@ namespace Comp_2018_1
             Reduzido = tabelaSintatica["tabela"]["estado"][estado.ToString()]["reducao"].ToString();
             int tamRed = Int32.Parse(tabelaSintatica["tabela"]["estado"][estado.ToString()]["size"].ToString());
 
-            //Console.Write("\nRegra utilizada");
-            //Console.Write("\n"+Reduzido + ": ");
-
-            //foreach (JValue t in tabelaSintatica["tabela"]["estado"][estado.ToString()][Reduzido])
-            {
-                //Console.Write(t.Value+" ");
-            }
 
             if (estado == 20 || Reduzido == "A")
             { }
@@ -231,6 +231,8 @@ namespace Comp_2018_1
 
             for (int y = 0; y < tamRed; y++)
             {
+                if (pilhaDeSimbolos.Peek().lexema == "B")
+                { }
                 //Console.Write("desempilha produções: "+ PilhaDeProducoes.Peek()+ " estados: "+ PilhaEstados.Peek() +" \n");
                 ListaParaManipularAtributo.Add(pilhaDeSimbolos.Pop());
 
@@ -279,10 +281,18 @@ namespace Comp_2018_1
             return null;
         }
 
+        public string Changetype(string entrada)
+        {
+            if (entrada == "inteiro")
+                return "int";
+            if (entrada == "real")
+                return "double";
+           
+            return entrada;
+        }
+
         public void Semantico(int indexEstate)
         {
-            int indexTemp = 0;
-
             switch (indexEstate)
             {
                 case 1:
@@ -294,7 +304,7 @@ namespace Comp_2018_1
                 case 4:
                     break;
                 case 5:
-                    saidaArquivo.Add("\n\n\n");
+                    saidaArquivo.Add("\n\n");
                     break;
                 case 6:
 
@@ -302,12 +312,24 @@ namespace Comp_2018_1
                     manipulador.tipo = ListaParaManipularAtributo[1].tipo;
                     pilhaDeSimbolos.Push(manipulador);
 
-                    saidaArquivo.Add(ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[2].lexema + " ;");
+                    saidaArquivo.Add(Changetype(ListaParaManipularAtributo[1].tipo) + " " + ListaParaManipularAtributo[2].lexema + " ;");
 
-                    //    SupLexStruct = Lexico.listLexica[possicaoDalista - 3];
-                    //    SupLexStruct.tipo = Lexico.listLexica[possicaoDalista - 2].tipo;
-                    //    Lexico.listLexica[possicaoDalista - 3] = manipulador;
-                    //    saidaArquivo.Add(Lexico.listLexica[possicaoDalista - 2].tipo + " " + Lexico.listLexica[possicaoDalista - 3].lexema +" ;");
+                    
+
+                    int i = 0;
+
+                    foreach (var element in Lexico.Tables_lexema)
+                    {
+                        if (element.lexema == manipulador.lexema)
+                        {
+                            manipulador = Lexico.Tables_lexema[i];
+                            manipulador.tipo = ListaParaManipularAtributo[1].tipo;
+                            Lexico.Tables_lexema[i] = manipulador;
+                            break;
+                        }
+                        i++;
+                    }
+                    
 
                     break;
                 case 7:
@@ -315,11 +337,6 @@ namespace Comp_2018_1
                     manipulador = pilhaDeSimbolos.Pop();
                     manipulador.tipo = "inteiro";
                     pilhaDeSimbolos.Push(manipulador);
-                    /*
-                    SupLexStruct  = Lexico.listLexica[possicaoDalista - 1];
-                    SupLexStruct.tipo = "inteiro";
-                    */
-                    //Lexico.listLexica[possicaoDalista - 1] = manipulador;
 
                     break;
 
@@ -327,11 +344,6 @@ namespace Comp_2018_1
                     manipulador = pilhaDeSimbolos.Pop();
                     manipulador.tipo = "real";
                     pilhaDeSimbolos.Push(manipulador);
-                    /*
-                    SupLexStruct = Lexico.listLexica[possicaoDalista - 1];
-                    SupLexStruct.tipo = "real";
-                    */
-                    //Lexico.listLexica[possicaoDalista - 1] = manipulador;
 
                     break;
                 case 9:
@@ -339,11 +351,6 @@ namespace Comp_2018_1
                     manipulador = pilhaDeSimbolos.Pop();
                     manipulador.tipo = "literal";
                     pilhaDeSimbolos.Push(manipulador);
-                    /*
-                    SupLexStruct = Lexico.listLexica[possicaoDalista - 1];
-                    SupLexStruct.tipo = "literal";
-                    */
-                    //Lexico.listLexica[possicaoDalista - 1] = manipulador;
 
                     break;
                 case 10:
@@ -361,14 +368,29 @@ namespace Comp_2018_1
                     }
                     else
                     {
-                        //Console.Write("ERRO:  VARIAVEL NAO DECLARA");
+                        Console.Write("ERRO:  VARIAVEL NAO DECLARA." );
+                        erroSemantico = true;
+
                     }
                     break;
                 case 12:
-                    //saidaArquivo.Add("printf(" + Lexico.listLexica[possicaoDalista - 2].lexema + ");");
-                    saidaArquivo.Add("printf(" + ListaParaManipularAtributo[1].lexema + ");");
 
-                    //saidaArquivo.Add("printf(" + ListaParaManipularAtributo[1].lexema + ");");
+                    //verifico se o elemento do scanF é um ID
+                    if (Lexico.Tables_lexema.Contains(ListaParaManipularAtributo[1]))                    
+                    {
+                        saidaArquivo.Add("printf(" + ListaParaManipularAtributo[1].lexema + ");");
+                    }
+                    else
+                    {
+                        String sup = ListaParaManipularAtributo[1].tipo;
+                        if (sup == "inteiro")
+                            sup = "\"%d\",";
+                        else if (sup == "real")
+                            sup = "\"%lf\",";
+                        else if (sup == "literal")
+                            sup = "\"%s\",";
+                        saidaArquivo.Add("printf("+ sup + ListaParaManipularAtributo[1].lexema + ");");
+                    }
                     break;
                 case 13:
 
@@ -388,7 +410,6 @@ namespace Comp_2018_1
 
                     break;
                 case 15:
-                    //if (Lexico.listLexica[possicaoDalista - 1].tipo != "")
                     if (ListaParaManipularAtributo[0].tipo != "")
                     {
                         manipulador = pilhaDeSimbolos.Pop();
@@ -399,45 +420,50 @@ namespace Comp_2018_1
                     }
                     else
                     {
-                        // Console.Write("ERRO:  VARIAVEL NAO DECLARA");
+                         Console.Write("ERRO:  VARIAVEL NAO DECLARA.");
+                        erroSemantico = true;
                     }
                     break;
                 case 16:
                     break;
                 case 17:
-                    //if (Lexico.listLexica[possicaoDalista - 4].tipo != "")
                     if (ListaParaManipularAtributo[3].tipo != "")
                     {
                         if (ListaParaManipularAtributo[3].tipo == ListaParaManipularAtributo[1].tipo)
                         {
-                            saidaArquivo.Add(ListaParaManipularAtributo[3].lexema + " " + ListaParaManipularAtributo[2].tipo + " " + ListaParaManipularAtributo[1].lexema);
+                            saidaArquivo.Add(ListaParaManipularAtributo[3].lexema + " " + ListaParaManipularAtributo[2].tipo + " " + ListaParaManipularAtributo[1].lexema+";");
                         }
                         else
                         {
-                            //Console.Write("Erro: Tipos diferentes para atribuição");
+                            Console.Write("Erro: Tipos diferentes para atribuição");
+                            erroSemantico = true;
                         }
                     }
                     else
                     {
-                        //Console.Write("Erro: Variável não declarada");
+                        Console.Write("Erro: Variável não declarada");
+                        erroSemantico = true;
                     }
                     break;
                 case 18:
                     if ((ListaParaManipularAtributo[2].tipo != "literal") && (ListaParaManipularAtributo[0].tipo == ListaParaManipularAtributo[2].tipo))
                     {
-                        saidaArquivo.Add("T" + indexVariavelTemporaria.ToString() + " = " + ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema);
-                        saidaArquivo.Insert(indexVariavelTemporaria, " T" + indexVariavelTemporaria.ToString());
+                        saidaArquivo.Add("T" + indexVariavelTemporaria.ToString() + " = " + ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema+";");
+                        saidaArquivo.Insert(indexVariavelTemporaria, Changetype(ListaParaManipularAtributo[2].tipo) + " T" + indexVariavelTemporaria.ToString() + ";");
 
 
                         manipulador = pilhaDeSimbolos.Pop();
-                        manipulador.lexema = ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema;
+                        //manipulador.lexema = ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema;
+                        manipulador.lexema = "T" + indexVariavelTemporaria.ToString();
+                        manipulador.tipo = ListaParaManipularAtributo[2].tipo;
                         pilhaDeSimbolos.Push(manipulador);
 
                         indexVariavelTemporaria++;
                     }
                     else
                     {
-                        //Console.Write("Erro: Operandos com tipos incompatíveis");
+                        Console.Write("Erro: Operandos com tipos incompatíveis");
+                        erroSemantico = true;
                     }
                     break;
                 case 19:
@@ -461,7 +487,8 @@ namespace Comp_2018_1
                     }
                     else
                     {
-                        // Console.Write("ERRO:  VARIAVEL NAO DECLARA");
+                         Console.Write("ERRO:  VARIAVEL NAO DECLARA");
+                         erroSemantico = true;
                     }
 
                     break;
@@ -483,15 +510,16 @@ namespace Comp_2018_1
                     saidaArquivo.Add("if(" + ListaParaManipularAtributo[2].lexema + "){");
                     break;
                 case 25:
-                    //if (Lexico.listLexica[possicaoDalista - 1].tipo == Lexico.listLexica[possicaoDalista - 3].tipo)
                     if (ListaParaManipularAtributo[0].tipo == ListaParaManipularAtributo[2].tipo)
                     {
-                        saidaArquivo.Add("T" + indexVariavelTemporaria.ToString() + " = " + ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema);
-                        saidaArquivo.Insert(indexVariavelTemporaria, " T" + indexVariavelTemporaria.ToString());
+                        saidaArquivo.Add("T" + indexVariavelTemporaria.ToString() + " = " + ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema +";" );
+                        saidaArquivo.Insert(indexVariavelTemporaria, Changetype(ListaParaManipularAtributo[2].tipo)+ " T" + indexVariavelTemporaria.ToString()+";");
 
 
                         manipulador = pilhaDeSimbolos.Pop();
-                        manipulador.lexema = ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema;
+                        //manipulador.lexema = ListaParaManipularAtributo[2].lexema + " " + ListaParaManipularAtributo[1].tipo + " " + ListaParaManipularAtributo[0].lexema;
+                        manipulador.lexema = "T" + indexVariavelTemporaria.ToString();
+                        manipulador.tipo = ListaParaManipularAtributo[2].tipo;
                         pilhaDeSimbolos.Push(manipulador);
 
                         indexVariavelTemporaria++;
@@ -499,7 +527,8 @@ namespace Comp_2018_1
                     }
                     else
                     {
-                        // Console.Write("Erro: Operandos com tipos incompatíveis");
+                         Console.Write("Erro: Operandos com tipos incompatíveis");
+                         erroSemantico = true;
                     }
                     break;
                 default:
